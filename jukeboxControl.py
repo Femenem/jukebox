@@ -34,7 +34,7 @@ class MainControl(threading.Thread):
 		self.bass = bass
 		self.treble = treble
 
-	def run():
+	def run(self):
 		print("Main thread begun")
 		while True:
 			newVolume = read_volume()
