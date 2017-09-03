@@ -51,17 +51,17 @@ class MainControl(threading.Thread):
 			#print("Treble: "+ str(read_treble()))
 			time.sleep(0.1)
 
-	def read_volume():
+	def read_volume(self):
 		number = adc.read_adc(1)
 		number = round(number/10.24)
 		return int(number)
 
-	def read_bass():
+	def read_bass(self):
 		number = adc.read_adc(0)
 		number = round(number/10.24)
 		return int(number)
 
-	def read_treble():
+	def read_treble(self):
 		number = adc.read_adc(2)
 		number = round(number/10.24)
 		return int(number)
