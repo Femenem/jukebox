@@ -121,7 +121,10 @@ class LedControl(threading.Thread):
 		strip.show()
 
 
+print("got to here")
 main = threading.Thread(target=MainControl, args=(volume, bass, treble), name=MainControl)
 ledMain = threading.Thread(target=LedControl, args=(volume, bass, treble), name=LedControl)
+print("got to here")
 main.start()
 ledMain.start()
+print("got to here")
