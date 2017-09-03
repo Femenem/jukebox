@@ -127,4 +127,5 @@ ledMain = threading.Thread(target=LedControl, args=(volume, bass, treble), name=
 print("got to here")
 main.start()
 ledMain.start()
+main.run()
 print("got to here")
