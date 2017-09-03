@@ -29,6 +29,7 @@ treble = 50
 class MainControl(threading.Thread):
 	global ledMain
 	def __init__(self, volume, bass, treble):
+		threading.Thread.__init__(self)
 		self.volume = volume
 		self.bass = bass
 		self.treble = treble
@@ -73,6 +74,7 @@ class LedControl(threading.Thread):
 	global volume, bass, treble
 
 	def __init__(self, volumeNumber, bassNumber, trebleNumber):
+		threading.Thread.__init__(self)
 		self.volumeNumber = round(volume*34/100)
 		self.bassNumber = round(bass*34/100)
 		self.trebleNumber = round(treble*34/100)
