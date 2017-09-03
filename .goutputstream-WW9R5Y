@@ -2,7 +2,7 @@ import time
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import os
-import threading
+import pigpio
 
 from neopixel import *
 
@@ -49,22 +49,17 @@ def wipe_led_strip(strip):
 	color = Color(0,0,0)
 	for i in range(strip.numPixels()):
 		strip.setPixelColor(i, color)
-	strip.show()
-	
-def wipe_led_levels(strip):
-	color = Color(0,0,0)
-	i = 61
-	while i < 95:
-		strip.setPixelColor(i, color)
-		i += 1
-	strip.show()
+		strip.show()
 
 def main():
 	global volume, bass, treble
 	red = Color(255, 0, 0)
 	green = Color(0, 255, 0)
 	blue = Color(0, 0, 255)
-	
+	# Create NeoPixel object with appropriate configuration.
+	strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+	# Intialize the library (must be called once before other functions).
+	strip.begin()
 	#strip.setPixelColor(95, blue)
 	strip.show()
 	print(convert_led_number(30))
@@ -74,11 +69,11 @@ def main():
 			#The volume knob has been changed so we change the volume through alsa.
 			os.system("amixer set Master "+str(newVolume)+"%")
 			volume = newVolume
-			wipe_led_levels(strip)
 			ledNumber = convert_led_number(volume)
-			litLedNumber = 61
-			ledStart = 61
+			litLedNumber = 65
+			ledStart = 65
 			while litLedNumber < ledStart+ledNumber:
+				wipe_led_strip(strip)
 				strip.setPixelColor(litLedNumber, red)
 				strip.show()
 				litLedNumber += 1
@@ -91,21 +86,5 @@ def main():
 		#print("Treble: "+ str(read_treble()))
 		time.sleep(0.1)
 
-class MainControl(threading.Thread):
-	volume = 50
-	def __init__(self, volume, bass, treble):
-		self.volume = volume
-		self.bass = bass
-		self.treble = treble
-	
-class LedControl(threading.Thread):
-   def run(self):
 
-
-# Create NeoPixel object with appropriate configuration.
-strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
-# Intialize the library (must be called once before other functions).
-trip.begin()
-MainControl
-LedControl.start()
-
+main()
