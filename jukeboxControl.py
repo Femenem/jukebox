@@ -26,86 +26,100 @@ volume = 50
 bass = 50
 treble = 50
 
-def read_volume():
-	number = adc.read_adc(1)
-	number = round(number/10.24)
-	return int(number)
-
-def read_bass():
-	number = adc.read_adc(0)
-	number = round(number/10.24)
-	return int(number)
-	
-def read_treble():
-	number = adc.read_adc(2)
-	number = round(number/10.24)
-	return int(number)
-	
-def convert_led_number(percent):
-	numOfLeds = 34
-	return round(percent*numOfLeds/100)
-	
-def wipe_led_strip(strip):
-	color = Color(0,0,0)
-	for i in range(strip.numPixels()):
-		strip.setPixelColor(i, color)
-	strip.show()
-	
-def wipe_led_levels(strip):
-	color = Color(0,0,0)
-	i = 61
-	while i < 95:
-		strip.setPixelColor(i, color)
-		i += 1
-	strip.show()
-
-def main():
-	global volume, bass, treble
-	red = Color(255, 0, 0)
-	green = Color(0, 255, 0)
-	blue = Color(0, 0, 255)
-	
-	#strip.setPixelColor(95, blue)
-	strip.show()
-	print(convert_led_number(30))
-	while True:
-		newVolume = read_volume()
-		if (newVolume < volume - 2) or (newVolume > volume + 2):
-			#The volume knob has been changed so we change the volume through alsa.
-			os.system("amixer set Master "+str(newVolume)+"%")
-			volume = newVolume
-			wipe_led_levels(strip)
-			ledNumber = convert_led_number(volume)
-			litLedNumber = 61
-			ledStart = 61
-			while litLedNumber < ledStart+ledNumber:
-				strip.setPixelColor(litLedNumber, red)
-				strip.show()
-				litLedNumber += 1
-			print("Volume set to "+str(volume))
-		
-		
-		
-		#print("Volume: "+ str(read_volume()))
-		#print("Bass: "+ str(read_bass()))
-		#print("Treble: "+ str(read_treble()))
-		time.sleep(0.1)
-
 class MainControl(threading.Thread):
-	volume = 50
+	global ledMain
 	def __init__(self, volume, bass, treble):
 		self.volume = volume
 		self.bass = bass
 		self.treble = treble
-	
+
+	def run():
+		print("Main thread begun")
+		while True:
+			newVolume = read_volume()
+			if (newVolume < volume - 2) or (newVolume > volume + 2):
+				#The volume knob has been changed so we change the volume through alsa.
+				os.system("amixer set Master "+str(newVolume)+"%")
+				volume = newVolume
+				ledMain.volume_led(volume)
+
+				print("Volume set to "+str(volume))
+
+			#print("Volume: "+ str(read_volume()))
+			#print("Bass: "+ str(read_bass()))
+			#print("Treble: "+ str(read_treble()))
+			time.sleep(0.1)
+
+	def read_volume():
+		number = adc.read_adc(1)
+		number = round(number/10.24)
+		return int(number)
+
+	def read_bass():
+		number = adc.read_adc(0)
+		number = round(number/10.24)
+		return int(number)
+
+	def read_treble():
+		number = adc.read_adc(2)
+		number = round(number/10.24)
+		return int(number)
+
 class LedControl(threading.Thread):
-   def run(self):
+	red = Color(255, 0, 0)
+	green = Color(0, 255, 0)
+	blue = Color(0, 0, 255)
+	black = Color(0,0,0)
+	global volume, bass, treble
+
+	def __init__(self, volumeNumber, bassNumber, trebleNumber):
+		self.volumeNumber = convert_led_number(volume)
+		self.bassNumber = convert_led_number(bass)
+		self.trebleNumber = convert_led_number(treble)
+		# Create NeoPixel object with appropriate configuration.
+ 	   	self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+ 	   	# Intialize the library (must be called once before other functions).
+
+	def run(self):
+		print("Led thread begun")
+		self.strip.begin()
+
+	def volume_led(percent):
+		newVolume = convert_led_number(percent)
+		wipe_led_strip()
+		if newVolume < self.volumeNumber:
+			#paint right pixels black
+			i = 61
+			while i < i + newVolume:
+				strip.setPixelColor(i, black)
+				i += 1
+			strip.show()
+		else:
+			#paint right pixels colour
+			i = 61
+			while i < i + newVolume:
+				strip.setPixelColor(i, red)
+				i += 1
+			strip.show()
+
+	def convert_led_number(percent):
+		numOfLeds = 34
+		return round(percent*numOfLeds/100)
+
+	def wipe_led_strip(strip):
+		for i in range(strip.numPixels()):
+			strip.setPixelColor(i, black)
+		strip.show()
+
+	def wipe_led_levels(strip):
+		i = 61
+		while i < 95:
+			strip.setPixelColor(i, black)
+			i += 1
+		strip.show()
 
 
-# Create NeoPixel object with appropriate configuration.
-strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
-# Intialize the library (must be called once before other functions).
-trip.begin()
-MainControl
-LedControl.start()
-
+main = MainControl(volume, bass, treble)
+ledMain = LedControl()
+main.start()
+ledMain.start()
