@@ -93,14 +93,14 @@ class LedControl(threading.Thread):
 			#paint right pixels black
 			i = 61
 			while i < i + newVolume:
-				self.strip.setPixelColor(i, black)
+				self.strip.setPixelColor(i, self.black)
 				i += 1
 			self.strip.show()
 		else:
 			#paint right pixels colour
 			i = 61
 			while i < i + newVolume:
-				self.strip.setPixelColor(i, red)
+				self.strip.setPixelColor(i, self.red)
 				i += 1
 			self.strip.show()
 
@@ -110,13 +110,13 @@ class LedControl(threading.Thread):
 
 	def wipe_led_strip(self):
 		for i in range(self.strip.numPixels()):
-			self.strip.setPixelColor(i, black)
+			self.strip.setPixelColor(i, self.black)
 		strip.show()
 
 	def wipe_led_levels(self):
 		i = 61
 		while i < 95:
-			self.strip.setPixelColor(i, black)
+			self.strip.setPixelColor(i, self.black)
 			i += 1
 		self.strip.show()
 
