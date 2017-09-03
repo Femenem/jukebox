@@ -86,40 +86,39 @@ class LedControl(threading.Thread):
 		print("Led thread begun")
 		self.strip.begin()
 
-	def volume_led(percent):
+	def volume_led(self, percent):
 		newVolume = convert_led_number(percent)
 		wipe_led_strip()
 		if newVolume < self.volumeNumber:
 			#paint right pixels black
 			i = 61
 			while i < i + newVolume:
-				strip.setPixelColor(i, black)
+				self.strip.setPixelColor(i, black)
 				i += 1
-			strip.show()
+			self.strip.show()
 		else:
 			#paint right pixels colour
 			i = 61
 			while i < i + newVolume:
-				strip.setPixelColor(i, red)
+				self.strip.setPixelColor(i, red)
 				i += 1
-			strip.show()
+			self.strip.show()
 
-	def convert_led_number(percent):
+	def convert_led_number(self, percent):
 		numOfLeds = 34
 		return round(percent*numOfLeds/100)
 
-	def wipe_led_strip(strip):
-		for i in range(strip.numPixels()):
-			strip.setPixelColor(i, black)
+	def wipe_led_strip(self):
+		for i in range(self.strip.numPixels()):
+			self.strip.setPixelColor(i, black)
 		strip.show()
 
-	def wipe_led_levels(strip):
+	def wipe_led_levels(self):
 		i = 61
 		while i < 95:
-			strip.setPixelColor(i, black)
+			self.strip.setPixelColor(i, black)
 			i += 1
-		strip.show()
-
+		self.strip.show()
 
 print("got to here")
 main = MainControl(volume, bass, treble)
