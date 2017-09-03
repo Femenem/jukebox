@@ -77,7 +77,7 @@ class LedControl(threading.Thread):
 		self.bassNumber = convert_led_number(bass)
 		self.trebleNumber = convert_led_number(treble)
 		# Create NeoPixel object with appropriate configuration.
- 	   	self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+		self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
  	   	# Intialize the library (must be called once before other functions).
 
 	def run(self):
