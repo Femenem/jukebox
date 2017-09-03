@@ -120,6 +120,6 @@ class LedControl(threading.Thread):
 
 
 main = MainControl(volume, bass, treble)
-ledMain = LedControl()
+ledMain = LedControl(volume, bass, treble)
 main.start()
 ledMain.start()
