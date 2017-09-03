@@ -37,7 +37,7 @@ class MainControl(threading.Thread):
 	def run(self):
 		print("Main thread begun")
 		while True:
-			newVolume = read_volume()
+			newVolume = self.read_volume()
 			if (newVolume < volume - 2) or (newVolume > volume + 2):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
