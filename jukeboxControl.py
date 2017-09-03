@@ -121,7 +121,7 @@ class LedControl(threading.Thread):
 		strip.show()
 
 
-main = MainControl(volume, bass, treble)
-ledMain = LedControl(volume, bass, treble)
+main = threading.Thread(target=MainControl, args=(volume, bass, treble), name=main)
+ledMain = threading.Thread(target=LedControl, args=(volume, bass, treble), name=ledMain)
 main.start()
 ledMain.start()
