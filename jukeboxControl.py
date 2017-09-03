@@ -111,7 +111,7 @@ class LedControl(threading.Thread):
 	def wipe_led_strip(self):
 		for i in range(self.strip.numPixels()):
 			self.strip.setPixelColor(i, self.black)
-		strip.show()
+		self.strip.show()
 
 	def wipe_led_levels(self):
 		i = 61
