@@ -37,15 +37,15 @@ class MainControl(threading.Thread):
 	def run(self):
 		print("Main thread begun")
 		while True:
-			print("Its looping!")
-			newVolume = self.read_volume()
-			if (newVolume < self.volume - 2) or (newVolume > self.volume + 2):
-				#The volume knob has been changed so we change the volume through alsa.
-				os.system("amixer set Master "+str(newVolume)+"%")
-				self.volume = newVolume
-				ledMain.volume_led(self.volume)
-
-				print("Volume set to "+str(self.volume))
+			while True:
+				print("Its looping!")
+				newVolume = self.read_volume()
+				if (newVolume < self.volume - 2) or (newVolume > self.volume + 2):
+					#The volume knob has been changed so we change the volume through alsa.
+					os.system("amixer set Master "+str(newVolume)+"%")
+					self.volume = newVolume
+					ledMain.volume_led(self.volume)
+					print("Volume set to "+str(self.volume))
 
 			#print("Volume: "+ str(read_volume()))
 			#print("Bass: "+ str(read_bass()))
