@@ -37,6 +37,7 @@ class MainControl(threading.Thread):
 	def run(self):
 		print("Main thread begun")
 		while True:
+			print("Its looping!")
 			newVolume = self.read_volume()
 			if (newVolume < self.volume - 2) or (newVolume > self.volume + 2):
 				#The volume knob has been changed so we change the volume through alsa.
@@ -49,7 +50,6 @@ class MainControl(threading.Thread):
 			#print("Volume: "+ str(read_volume()))
 			#print("Bass: "+ str(read_bass()))
 			#print("Treble: "+ str(read_treble()))
-			time.sleep(0.1)
 
 	def read_volume(self):
 		number = adc.read_adc(1)
@@ -87,6 +87,7 @@ class LedControl(threading.Thread):
 		self.strip.begin()
 
 	def volume_led(self, percent):
+		print("changing leds for volume")
 		newVolume = self.convert_led_number(percent)
 		self.wipe_led_strip()
 		if newVolume < self.volumeNumber:
@@ -96,6 +97,7 @@ class LedControl(threading.Thread):
 				self.strip.setPixelColor(i, self.black)
 				i += 1
 			self.strip.show()
+			print("changing leds for volume")
 		else:
 			#paint right pixels colour
 			i = 61
@@ -103,6 +105,7 @@ class LedControl(threading.Thread):
 				self.strip.setPixelColor(i, self.red)
 				i += 1
 			self.strip.show()
+			print("changing leds for volume")
 
 	def convert_led_number(self, percent):
 		numOfLeds = 34
