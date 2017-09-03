@@ -87,8 +87,8 @@ class LedControl(threading.Thread):
 		self.strip.begin()
 
 	def volume_led(self, percent):
-		newVolume = convert_led_number(percent)
-		wipe_led_strip()
+		newVolume = self.convert_led_number(percent)
+		self.wipe_led_strip()
 		if newVolume < self.volumeNumber:
 			#paint right pixels black
 			i = 61
