@@ -122,10 +122,9 @@ class LedControl(threading.Thread):
 
 
 print("got to here")
-main = threading.Thread(target=MainControl, args=(volume, bass, treble), name=MainControl)
-ledMain = threading.Thread(target=LedControl, args=(volume, bass, treble), name=LedControl)
+main = MainControl(volume, bass, treble)
+ledMain = LedControl(volume, bass, treble)
 print("got to here")
 main.start()
 ledMain.start()
-main.run()
 print("got to here")
