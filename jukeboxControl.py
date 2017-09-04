@@ -38,6 +38,7 @@ class MainControl():
 	def run(self):
 		print("Main thread begun")
 		leds = LedControl(self.volume, self.bass, self.treble)
+		leds.rainbow_leds()
 		while True:
 			newVolume = self.read_volume()
 			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
@@ -75,6 +76,7 @@ class LedControl():
 	green = Color(0, 255, 0)
 	blue = Color(0, 0, 255)
 	black = Color(0,0,0)
+	currentColor = Color(0,0,0)
 	global volume, bass, treble
 
 	def __init__(self, volumeNumber, bassNumber, trebleNumber):
@@ -135,11 +137,14 @@ class LedControl():
 			pos -= 170
 			return Color(0,pos*3,255-pos*3)
 
-	def playing_leds(self):
-		for j in range(256*1):
+	def rainbow_leds(self):
+		for j in range(256*5):
 			for i in range(self.strip.numPixels()):
 				self.strip.setPixelColor(i, self.wheel((int(i*256/self.strip.numPixels())+j) & 255))
 			self.strip.show()
+
+	def playing_leds(self):
+		pass
 
 	def random_255(self):
 		return random.randint(0, 255)
