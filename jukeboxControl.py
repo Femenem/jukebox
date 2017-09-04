@@ -39,7 +39,7 @@ class MainControl():
 		leds = LedControl(self.volume, self.bass, self.treble)
 		while True:
 			newVolume = self.read_volume()
-			if (newVolume < self.volume - 2) or (newVolume > self.volume + 2):
+			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
 				leds.volume_led(newVolume, self.volume)
@@ -92,7 +92,7 @@ class LedControl():
 				self.strip.setPixelColor(i, self.black)
 				i += 1
 			self.strip.show()
-			print("changing leds for volume")
+			print("changing leds for volume black")
 		else:
 			#paint right pixels colour
 			i = 95
@@ -100,7 +100,7 @@ class LedControl():
 				self.strip.setPixelColor(i, self.red)
 				i -= 1
 			self.strip.show()
-			print("changing leds for volume")
+			print("changing leds for volume red")
 
 	def convert_led_number(self, percent):
 		numOfLeds = 34
