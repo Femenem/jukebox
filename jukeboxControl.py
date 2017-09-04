@@ -2,6 +2,7 @@ import time
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import os
+import random
 
 from neopixel import *
 
@@ -46,6 +47,9 @@ class MainControl():
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
 				time.sleep(0.1)
+			else:
+				#No knobs have changed so we can set playing behavour
+				leds.playing_leds()
 
 			#print("Volume: "+ str(read_volume()))
 			#print("Bass: "+ str(read_bass()))
@@ -89,11 +93,11 @@ class LedControl():
 		self.wipe_led_strip()
 		if newVolume < currentVolume:
 			#paint right pixels black
-			i = 95
-			while i > 95 - newVolume:
-				self.strip.setPixelColor(i-newVolume, self.black)
+			i = 61
+			while i < 61 + newVolume:
+				self.strip.setPixelColor(i, self.black)
 				print(i)
-				i -= 1
+				i += 1
 			self.strip.show()
 			print("changing leds for volume black")
 		else:
@@ -121,6 +125,14 @@ class LedControl():
 			i += 1
 		self.strip.show()
 
+	def playing_leds(self):
+		for i in range(self.strip.numPixels()):
+			self.strip.setPixelColor(i, Color(self.random_255(), self.random_255(), self.random_255()))
+		self.strip.show()
+
+	def random_255():
+		return random.randint(0, 255)
+
 try:
 	print("got to here")
 	main = MainControl(volume, bass, treble)
@@ -128,4 +140,5 @@ try:
 	main.run()
 	print("got to here")
 except KeyboardInterrupt:
-	print ("Closing")
+	print("")
+	print("Closing")
