@@ -42,8 +42,8 @@ class MainControl():
 			if (newVolume < self.volume - 2) or (newVolume > self.volume + 2):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
+				leds.volume_led(newVolume, self.volume)
 				self.volume = newVolume
-				leds.volume_led(self.volume)
 				print("Volume set to "+str(self.volume))
 
 			#print("Volume: "+ str(read_volume()))
@@ -81,11 +81,11 @@ class LedControl():
  	   	# Intialize the library (must be called once before other functions).
 		self.strip.begin()
 
-	def volume_led(self, percent):
+	def volume_led(self, percent, currentVolume):
 		print("changing leds for volume")
 		newVolume = self.convert_led_number(percent)
 		self.wipe_led_strip()
-		if newVolume < self.volumeNumber:
+		if newVolume < currentVolume:
 			#paint right pixels black
 			i = 61
 			while i < 61 + newVolume:
