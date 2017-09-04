@@ -38,7 +38,6 @@ class MainControl():
 		print("Main thread begun")
 		leds = LedControl(self.volume, self.bass, self.treble)
 		while True:
-			print("Its looping!")
 			newVolume = self.read_volume()
 			if (newVolume < self.volume - 2) or (newVolume > self.volume + 2):
 				#The volume knob has been changed so we change the volume through alsa.
