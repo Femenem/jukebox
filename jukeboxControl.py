@@ -138,7 +138,7 @@ class LedControl():
 	def playing_leds(self):
 		for j in range(256*5):
 			for i in range(self.strip.numPixels()):
-				self.strip.setPixelColor(i, wheel((int(i*256/strip.numPixels())+j) & 255))
+				self.strip.setPixelColor(i, self.wheel((int(i*256/self.strip.numPixels())+j) & 255))
 			self.strip.show()
 
 	def random_255(self):
