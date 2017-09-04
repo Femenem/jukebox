@@ -121,8 +121,11 @@ class LedControl():
 			i += 1
 		self.strip.show()
 
-print("got to here")
-main = MainControl(volume, bass, treble)
-print("got to here")
-main.run()
-print("got to here")
+try:
+	print("got to here")
+	main = MainControl(volume, bass, treble)
+	print("got to here")
+	main.run()
+	print("got to here")
+except KeyboardInterrupt:
+	print "Closing"
