@@ -91,6 +91,7 @@ class LedControl():
 			i = 61
 			while i < 61 + newVolume:
 				self.strip.setPixelColor(i, self.black)
+				print(i)
 				i += 1
 			self.strip.show()
 			print("changing leds for volume black")
