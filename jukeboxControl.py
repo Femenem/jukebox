@@ -45,6 +45,7 @@ class MainControl():
 				leds.volume_led(newVolume, self.volume)
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
+				time.sleep(0.1)
 
 			#print("Volume: "+ str(read_volume()))
 			#print("Bass: "+ str(read_bass()))
@@ -88,9 +89,9 @@ class LedControl():
 		self.wipe_led_strip()
 		if newVolume < currentVolume:
 			#paint right pixels black
-			i = 61
-			while i < 61 + newVolume:
-				self.strip.setPixelColor(i, self.black)
+			i = 95
+			while i > 95 - newVolume:
+				self.strip.setPixelColor(i-newVolume, self.black)
 				print(i)
 				i += 1
 			self.strip.show()
