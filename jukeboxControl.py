@@ -84,6 +84,7 @@ class LedControl():
 	def volume_led(self, percent, currentVolume):
 		print("changing leds for volume")
 		newVolume = self.convert_led_number(percent)
+		currentVolume = self.convert_led_number(currentVolume)
 		self.wipe_led_strip()
 		if newVolume < currentVolume:
 			#paint right pixels black
