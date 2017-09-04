@@ -130,7 +130,7 @@ class LedControl():
 			self.strip.setPixelColor(i, Color(self.random_255(), self.random_255(), self.random_255()))
 		self.strip.show()
 
-	def random_255():
+	def random_255(self):
 		return random.randint(0, 255)
 
 try:
