@@ -56,7 +56,7 @@ class MainControl():
 				self.oldVolume = self.volume
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
-			time.sleep(0.2)
+			time.sleep(0.1)
 			#print("Volume: "+ str(read_volume()))
 			#print("Bass: "+ str(read_bass()))
 			#print("Treble: "+ str(read_treble()))
@@ -97,13 +97,6 @@ class LedControl():
 		print("changing leds for volume")
 		newVolume = self.convert_led_number(percent)
 		currentVolume = self.convert_led_number(currentVolume)
-		# i = 61
-		# while i < 95:
-		# 	if i < i + newVolume:
-		# 		#black
-		#
-		# 	else:
-		# 		#red
 
 		if newVolume < currentVolume:
 			#paint right pixels black
@@ -111,7 +104,6 @@ class LedControl():
 			i = 61
 			while i < 61 + newVolume:
 				self.strip.setPixelColor(i, self.black)
-				print(i)
 				i += 1
 			self.strip.show()
 			print("changing leds for volume black")
