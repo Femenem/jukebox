@@ -32,26 +32,29 @@ class MainControl():
 	global ledMain, adc
 	def __init__(self, volume, bass, treble):
 		self.volume = volume
+		self.oldVolume = volume
 		self.bass = bass
 		self.treble = treble
+		self.ledState = 'start'
 
 	def run(self):
 		print("Main thread begun")
 		leds = LedControl(self.volume, self.bass, self.treble)
-		leds.rainbow_leds()
+
 		while True:
 			newVolume = self.read_volume()
+			if self.ledState == 'start':
+				#No knobs have changed so we can set playing behavour
+				leds.rainbow_leds()
+			elif self.ledState == 'volume change'
 			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
-				leds.volume_led(newVolume, self.volume)
+				self.ledState = 'volume change'
+				self.oldVolume = self.volume
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
-				time.sleep(0.1)
-			else:
-				#No knobs have changed so we can set playing behavour
-				leds.playing_leds()
-
+			time.sleep(0.2)
 			#print("Volume: "+ str(read_volume()))
 			#print("Bass: "+ str(read_bass()))
 			#print("Treble: "+ str(read_treble()))
