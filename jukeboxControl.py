@@ -166,14 +166,17 @@ class LedControl():
 		for i in range(self.strip.numPixels()):
 			self.strip.setPixelColor(i, self.white)
 		self.strip.show()
+		print("paused leds")
 
 	def random_255(self):
 		return random.randint(0, 255)
 
 	def check_next_state(self, timer):
 		if timer < int(time.time())+5:
+			print("null")
 			return 'null'
 		else:
+			print("paused")
 			return 'paused'
 
 try:
