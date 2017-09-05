@@ -50,11 +50,11 @@ class MainControl():
 			elif self.ledState == 'volume change':
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
-				print(ledTimer)
-				print(ledTimer)
-				print(ledTimer)
-				print(ledTimer)
-				print(ledTimer)
+				print(self.ledTimer)
+				print(self.ledTimer)
+				print(self.ledTimer)
+				print(self.ledTimer)
+				print(self.ledTimer)
 				self.ledState = 'playing'
 			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
 				#The volume knob has been changed so we change the volume through alsa.
