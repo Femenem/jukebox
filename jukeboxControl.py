@@ -58,6 +58,7 @@ class MainControl():
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
 				self.ledState = 'null'
+				# TODO HELP HERE
 				self.ledState = leds.check_next_state(self.ledTimer)
 
 			newVolume = self.read_volume()
@@ -69,6 +70,7 @@ class MainControl():
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
 
+			print(self.ledState)
 			# Sleep timer
 			time.sleep(0.1)
 
@@ -174,10 +176,8 @@ class LedControl():
 
 	def check_next_state(self, timer):
 		if timer < int(time.time())+5:
-			print("null")
 			return 'null'
 		else:
-			print("paused")
 			return 'paused'
 
 try:
