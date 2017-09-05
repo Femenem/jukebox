@@ -47,15 +47,19 @@ class MainControl():
 				#No knobs have changed so we can set playing behavour
 				leds.rainbow_leds()
 				leds.wipe_led_strip()
+				self.ledState = leds.check_next_state(self.ledTimer)
+			elif self.ledState == 'playing':
+				# Music is playing and so are LED's
+				self.ledState = leds.check_next_state(self.ledTimer)
+			elif self.ledState == 'paused':
+				# Music is paused so LED's are still
+				leds.paused_leds()
+				self.ledState = leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'volume change':
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
-				print(self.ledTimer)
-				print(self.ledTimer)
-				print(self.ledTimer)
-				print(self.ledTimer)
-				print(self.ledTimer)
-				self.ledState = 'playing'
+				self.ledState = leds.check_next_state(self.ledTimer)
+
 			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
@@ -63,6 +67,8 @@ class MainControl():
 				self.oldVolume = self.volume
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
+
+			# Sleep timer
 			time.sleep(0.1)
 
 	def read_volume(self):
@@ -84,6 +90,7 @@ class LedControl():
 	red = Color(255, 0, 0)
 	green = Color(0, 255, 0)
 	blue = Color(0, 0, 255)
+	white = Color(255,255,255)
 	black = Color(0,0,0)
 	currentColor = Color(0,0,0)
 	global volume, bass, treble
@@ -155,8 +162,19 @@ class LedControl():
 	def playing_leds(self):
 		pass
 
+	def paused_leds(self):
+		for i in range(self.strip.numPixels()):
+			self.strip.setPixelColor(i, self.white)
+		self.strip.show()
+
 	def random_255(self):
 		return random.randint(0, 255)
+
+	def check_next_state(self, timer):
+		if timer < int(time.time())+5:
+			return 'null'
+		else:
+			return 'paused'
 
 try:
 	print("got to here")
