@@ -67,7 +67,7 @@ class MainControl():
 				leds.paused_leds()
 				self.ledState = leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'volume change':
-				if leds.get_first_change == True:
+				if leds.get_first_change() == True:
 					leds.wipe_led_strip()
 					leds.set_first_change(False)
 				leds.volume_led(self.volume, self.oldVolume)
