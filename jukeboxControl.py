@@ -46,7 +46,9 @@ class MainControl():
 			if self.ledState == 'start':
 				#No knobs have changed so we can set playing behavour
 				leds.rainbow_leds()
-			elif self.ledState == 'volume change'
+			elif self.ledState == 'volume change':
+				leds.volume_led(self.volume, self.oldVolume)
+				self.ledState = 'playing'
 			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
@@ -95,7 +97,14 @@ class LedControl():
 		print("changing leds for volume")
 		newVolume = self.convert_led_number(percent)
 		currentVolume = self.convert_led_number(currentVolume)
-		self.wipe_led_strip()
+		# i = 61
+		# while i < 95:
+		# 	if i < i + newVolume:
+		# 		#black
+		#
+		# 	else:
+		# 		#red
+
 		if newVolume < currentVolume:
 			#paint right pixels black
 			i = 61
