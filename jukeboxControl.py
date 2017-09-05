@@ -124,7 +124,7 @@ class LedControl():
 	def repaint_volume(self, currentVolume):
 		currentVolume = self.convert_led_number(currentVolume)
 		i = 95
-		while i > 95 - newVolume:
+		while i > 95 - currentVolume:
 			self.strip.setPixelColor(i, self.red)
 			i -= 1
 		self.strip.show()
