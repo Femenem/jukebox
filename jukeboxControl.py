@@ -114,10 +114,10 @@ class LedControl():
  	   	# Intialize the library (must be called once before other functions).
 		self.strip.begin()
 
-	def get_first_change():
+	def get_first_change(self):
 		return self.firstChange
 
-	def set_first_change(change):
+	def set_first_change(self, change):
 		self.firstChange = change
 
 	def volume_led(self, percent, currentVolume):
