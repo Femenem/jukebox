@@ -72,7 +72,6 @@ class MainControl():
 				self.ledTimer = int(time.time())
 				self.ledState = leds.check_next_state(self.ledTimer)
 
-
 			#print(self.ledState)
 			# Sleep timer
 			time.sleep(0.1)
