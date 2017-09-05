@@ -40,12 +40,12 @@ class MainControl():
 	def run(self):
 		print("Main thread begun")
 		leds = LedControl(self.volume, self.bass, self.treble)
-
 		while True:
 			newVolume = self.read_volume()
 			if self.ledState == 'start':
 				#No knobs have changed so we can set playing behavour
 				leds.rainbow_leds()
+				leds.wipe_led_strip()
 			elif self.ledState == 'volume change':
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledState = 'playing'
