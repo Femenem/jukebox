@@ -107,6 +107,7 @@ class LedControl():
 
 		if newVolume < currentVolume:
 			#paint right pixels black
+			newVolume = 34 - newVolume
 			i = 61
 			while i < 61 + newVolume:
 				self.strip.setPixelColor(i, self.black)
