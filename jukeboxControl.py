@@ -73,6 +73,8 @@ class MainControl():
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
 				self.ledState = leds.check_next_state(self.ledTimer)
+			else:
+				self.ledState = leds.check_next_state(self.ledTimer)
 
 			# print(self.ledState)
 			# Sleep timer
