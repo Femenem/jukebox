@@ -67,12 +67,14 @@ class MainControl():
 				leds.paused_leds()
 				self.ledState = leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'volume change':
-				leds.wipe_led_strip()
+				if leds.get_first_change == True:
+					leds.wipe_led_strip()
+					leds.set_first_change(False)
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
 				self.ledState = leds.check_next_state(self.ledTimer)
 
-			#print(self.ledState)
+			# print(self.ledState)
 			# Sleep timer
 			time.sleep(0.1)
 
@@ -104,10 +106,17 @@ class LedControl():
 		self.volumeNumber = round(volume*34/100)
 		self.bassNumber = round(bass*34/100)
 		self.trebleNumber = round(treble*34/100)
+		self.firstChange = True
 		# Create NeoPixel object with appropriate configuration.
 		self.strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
  	   	# Intialize the library (must be called once before other functions).
 		self.strip.begin()
+
+	def get_first_change():
+		return self.firstChange
+
+	def set_first_change(change):
+		self.firstChange = change
 
 	def volume_led(self, percent, currentVolume):
 		print("changing leds for volume")
@@ -180,6 +189,8 @@ class LedControl():
 		if int(time.time())-5 < setTime:
 			return 'null'
 		else:
+			# firstChange set to true to prepare for next change
+			self.firstChange = True
 			return 'paused'
 
 try:
