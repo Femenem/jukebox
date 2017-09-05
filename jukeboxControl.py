@@ -182,7 +182,6 @@ class LedControl():
 		for i in range(self.strip.numPixels()):
 			self.strip.setPixelColor(i, self.white)
 		self.strip.show()
-		print("paused leds")
 
 	def random_255(self):
 		return random.randint(0, 255)
