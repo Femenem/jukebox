@@ -42,7 +42,6 @@ class MainControl():
 		print("Main thread begun")
 		leds = LedControl(self.volume, self.bass, self.treble)
 		while True:
-			newVolume = self.read_volume()
 			if self.ledState == 'start':
 				#No knobs have changed so we can set playing behavour
 				leds.rainbow_leds()
@@ -58,8 +57,10 @@ class MainControl():
 			elif self.ledState == 'volume change':
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
+				self.ledState = 'null'
 				self.ledState = leds.check_next_state(self.ledTimer)
 
+			newVolume = self.read_volume()
 			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
