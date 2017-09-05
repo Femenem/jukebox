@@ -177,7 +177,7 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_next_state(self, setTime):
-		if int(time.time())+50 < setTime:
+		if int(time.time())-5 < setTime:
 			return 'null'
 		else:
 			return 'paused'
