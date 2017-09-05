@@ -36,6 +36,7 @@ class MainControl():
 		self.bass = bass
 		self.treble = treble
 		self.ledState = 'start'
+		self.ledTimer = 0;
 
 	def run(self):
 		print("Main thread begun")
@@ -48,6 +49,12 @@ class MainControl():
 				leds.wipe_led_strip()
 			elif self.ledState == 'volume change':
 				leds.volume_led(self.volume, self.oldVolume)
+				self.ledTimer = int(time.time())
+				print(ledTimer)
+				print(ledTimer)
+				print(ledTimer)
+				print(ledTimer)
+				print(ledTimer)
 				self.ledState = 'playing'
 			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
 				#The volume knob has been changed so we change the volume through alsa.
@@ -57,9 +64,6 @@ class MainControl():
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
 			time.sleep(0.1)
-			#print("Volume: "+ str(read_volume()))
-			#print("Bass: "+ str(read_bass()))
-			#print("Treble: "+ str(read_treble()))
 
 	def read_volume(self):
 		number = adc.read_adc(1)
