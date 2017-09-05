@@ -67,6 +67,7 @@ class MainControl():
 				leds.paused_leds()
 				self.ledState = leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'volume change':
+				leds.wipe_led_strip()
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
 				self.ledState = leds.check_next_state(self.ledTimer)
@@ -177,7 +178,7 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_next_state(self, setTime):
-		if int(time.time())+5 < setTime:
+		if int(time.time())+50 < setTime:
 			return 'null'
 		else:
 			return 'paused'
