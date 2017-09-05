@@ -41,7 +41,19 @@ class MainControl():
 	def run(self):
 		print("Main thread begun")
 		leds = LedControl(self.volume, self.bass, self.treble)
+		# Startup sequance
+		leds.rainbow_leds()
+		leds.wipe_led_strip()
 		while True:
+			newVolume = self.read_volume()
+			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
+				#The volume knob has been changed so we change the volume through alsa.
+				os.system("amixer set Master "+str(newVolume)+"%")
+				self.ledState = 'volume change'
+				self.oldVolume = self.volume # store old volume for leds
+				self.volume = newVolume
+				print("Volume set to "+str(self.volume))
+
 			if self.ledState == 'start':
 				#No knobs have changed so we can set playing behavour
 				leds.rainbow_leds()
@@ -57,20 +69,10 @@ class MainControl():
 			elif self.ledState == 'volume change':
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
-				self.ledState = 'null'
-				# TODO HELP HERE
 				self.ledState = leds.check_next_state(self.ledTimer)
 
-			newVolume = self.read_volume()
-			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
-				#The volume knob has been changed so we change the volume through alsa.
-				os.system("amixer set Master "+str(newVolume)+"%")
-				self.ledState = 'volume change'
-				self.oldVolume = self.volume
-				self.volume = newVolume
-				print("Volume set to "+str(self.volume))
 
-			print(self.ledState)
+			#print(self.ledState)
 			# Sleep timer
 			time.sleep(0.1)
 
