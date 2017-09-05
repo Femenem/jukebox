@@ -70,6 +70,7 @@ class MainControl():
 				if leds.get_first_change() == True:
 					leds.wipe_led_strip()
 					leds.set_first_change(False)
+					leds.repaint_volume(self.volume)
 				leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
 				self.ledState = leds.check_next_state(self.ledTimer)
@@ -119,6 +120,14 @@ class LedControl():
 
 	def set_first_change(self, change):
 		self.firstChange = change
+
+	def repaint_volume(self, currentVolume):
+		currentVolume = self.convert_led_number(currentVolume)
+		i = 95
+		while i > 95 - newVolume:
+			self.strip.setPixelColor(i, self.red)
+			i -= 1
+		self.strip.show()
 
 	def volume_led(self, percent, currentVolume):
 		print("changing leds for volume")
