@@ -37,13 +37,13 @@ class MainControl():
 		self.treble = treble
 		self.ledState = 'start'
 		self.ledTimer = 0;
+		self.leds = LedControl(self.volume, self.bass, self.treble)
 
 	def run(self):
 		print("Main thread begun")
-		leds = LedControl(self.volume, self.bass, self.treble)
 		# Startup sequance
-		leds.rainbow_leds()
-		leds.wipe_led_strip()
+		self.leds.rainbow_leds()
+		self.leds.wipe_led_strip()
 		while True:
 			newVolume = self.read_volume()
 			if (newVolume < self.volume - 4) or (newVolume > self.volume + 4):
@@ -57,22 +57,22 @@ class MainControl():
 			# LED state conditions
 			if self.ledState == 'start':
 				#No knobs have changed so we can set playing behavour
-				leds.rainbow_leds()
-				leds.wipe_led_strip()
+				self.leds.rainbow_leds()
+				self.leds.wipe_led_strip()
 				self.ledState = leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'playing':
 				# Music is playing and so are LED's
 				self.ledState = leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'paused':
 				# Music is paused so LED's are still
-				leds.paused_leds()
+				self.leds.paused_leds()
 				self.ledState = leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'volume change':
 				if leds.get_first_change() == True:
 					leds.wipe_led_strip()
 					leds.set_first_change(False)
 					leds.repaint_volume(self.volume)
-				leds.volume_led(self.volume, self.oldVolume)
+				self.leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
 				self.ledState = leds.check_next_state(self.ledTimer)
 			else:
@@ -83,7 +83,7 @@ class MainControl():
 			time.sleep(0.1)
 
 	def close(self):
-		leds.wipe_led_strip()
+		self.leds.wipe_led_strip()
 
 	def read_volume(self):
 		number = adc.read_adc(1)
