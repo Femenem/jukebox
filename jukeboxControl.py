@@ -46,7 +46,7 @@ class MainControl():
 		leds.wipe_led_strip()
 		while True:
 			newVolume = self.read_volume()
-			if (newVolume < self.volume - 3) or (newVolume > self.volume + 3):
+			if (newVolume < self.volume - 4) or (newVolume > self.volume + 4):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
 				self.ledState = 'volume change'
@@ -54,6 +54,7 @@ class MainControl():
 				self.volume = newVolume
 				print("Volume set to "+str(self.volume))
 
+			# LED state conditions
 			if self.ledState == 'start':
 				#No knobs have changed so we can set playing behavour
 				leds.rainbow_leds()
@@ -80,6 +81,9 @@ class MainControl():
 			# print(self.ledState)
 			# Sleep timer
 			time.sleep(0.1)
+
+	def close(self):
+		leds.wipe_led_strip()
 
 	def read_volume(self):
 		number = adc.read_adc(1)
@@ -130,7 +134,6 @@ class LedControl():
 		self.strip.show()
 
 	def volume_led(self, percent, currentVolume):
-		print("changing leds for volume")
 		newVolume = self.convert_led_number(percent)
 		currentVolume = self.convert_led_number(currentVolume)
 
@@ -210,5 +213,5 @@ try:
 	main.run()
 	print("got to here")
 except KeyboardInterrupt:
-	print("")
+	main.close()
 	print("Closing")
