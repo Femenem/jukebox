@@ -59,24 +59,24 @@ class MainControl():
 				#No knobs have changed so we can set playing behavour
 				self.leds.rainbow_leds()
 				self.leds.wipe_led_strip()
-				self.ledState = leds.check_next_state(self.ledTimer)
+				self.ledState = self.leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'playing':
 				# Music is playing and so are LED's
-				self.ledState = leds.check_next_state(self.ledTimer)
+				self.ledState = self.leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'paused':
 				# Music is paused so LED's are still
 				self.leds.paused_leds()
-				self.ledState = leds.check_next_state(self.ledTimer)
+				self.ledState = self.leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'volume change':
-				if leds.get_first_change() == True:
-					leds.wipe_led_strip()
-					leds.set_first_change(False)
-					leds.repaint_volume(self.volume)
+				if self.leds.get_first_change() == True:
+					self.leds.wipe_led_strip()
+					self.leds.set_first_change(False)
+					self.leds.repaint_volume(self.volume)
 				self.leds.volume_led(self.volume, self.oldVolume)
 				self.ledTimer = int(time.time())
-				self.ledState = leds.check_next_state(self.ledTimer)
+				self.ledState = self.leds.check_next_state(self.ledTimer)
 			else:
-				self.ledState = leds.check_next_state(self.ledTimer)
+				self.ledState = self.leds.check_next_state(self.ledTimer)
 
 			# print(self.ledState)
 			# Sleep timer
