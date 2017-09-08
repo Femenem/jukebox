@@ -209,7 +209,7 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_playing(self):
-		pipe = popen(['curl', '-d', '\'{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}\'', 'http://localhost:6680/mopidy/rpc'], stdout=PIPE, stderr=PIPE)
+		pipe = subprocess.Popen(['curl', '-d', '\'{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}\'', 'http://localhost:6680/mopidy/rpc'], stdout=PIPE, stderr=PIPE)
 		result = pipe.communicate
 		print(result)
 
