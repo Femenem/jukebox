@@ -3,7 +3,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import os
 import random
-from subprocess import DEVNULL, STDOUT, check_call
+from subprocess import DEVNULL, STDOUT, popen, PIPE
 import json
 
 from neopixel import *
@@ -209,14 +209,15 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_playing(self):
-		result = str(check_call(['curl', '-d', '\'{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}\'', 'http://localhost:6680/mopidy/rpc'], stdout=DEVNULL))
+		result = popen(['curl', '-d', '\'{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}\'', 'http://localhost:6680/mopidy/rpc'], stdout=DEVNULL stderr=STDOUT)
+		print(result)
+
 		if 'paused' in result:
 			print("Stopped")
 			return False
 		elif 'playing' in result:
 			print("Playing")
 			return True
-		print(result)
 		return False
 
 	def check_next_state(self, setTime):
