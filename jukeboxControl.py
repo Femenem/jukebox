@@ -218,7 +218,7 @@ class LedControl():
 		else:
 			# firstChange set to true to prepare for next change
 			self.firstChange = True
-			return 'paused'
+			return 'playing'
 
 try:
 	print("got to here")
