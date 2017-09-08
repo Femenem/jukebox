@@ -209,9 +209,8 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_playing(self):
-		pipe = Popen(['curl', '-d', '{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}', 'http://localhost:6680/mopidy/rpc'], stdout=PIPE, stderr=PIPE)
+		pipe = Popen(['curl', '-d', '{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}', 'http://localhost:6680/mopidy/rpc'], stdout=DEVNULL, stderr=PIPE)
 		result, err = pipe.communicate()
-		print(result)
 		result = str(result)
 
 		if 'paused' in result:
@@ -226,12 +225,13 @@ class LedControl():
 		if int(time.time())-5 < setTime:
 			return 'null'
 		if self.check_playing() == True:
+			# firstChange set to true to prepare for next change
 			self.firstChange = True
 			return 'playing'
 		else:
 			# firstChange set to true to prepare for next change
 			self.firstChange = True
-			return 'playing'
+			return 'paused'
 
 try:
 	print("got to here")
