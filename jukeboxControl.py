@@ -4,6 +4,7 @@ import Adafruit_MCP3008
 import os
 import random
 import subprocess
+import json
 
 from neopixel import *
 
@@ -209,7 +210,8 @@ class LedControl():
 
 	def check_playing(self):
 		result = subprocess.check_output("curl -d '{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"core.playback.get_state\"}' http://localhost:6680/mopidy/rpc", shell=True)
-		print(result)
+		resut = json.loads(resut)
+		print(result['result'])
 		return False
 
 	def check_next_state(self, setTime):
