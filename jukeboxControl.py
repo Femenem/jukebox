@@ -210,9 +210,9 @@ class LedControl():
 
 	def check_playing(self):
 		result = os.system("curl -d '{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"core.playback.get_state\"}' http://localhost:6680/mopidy/rpc")
-		if 'stopped' in result:
+		if 'stopped' in str(result):
 			print("Stopped")
-		elif 'playing' in result:
+		elif 'playing' in str(result):
 			print("Playing")
 
 		print(result['result'])
