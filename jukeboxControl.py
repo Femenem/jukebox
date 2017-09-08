@@ -209,7 +209,7 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_playing(self):
-		result = check_call(['curl', '-d', '\'{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}\'', 'http://localhost:6680/mopidy/rpc'], stdout=DEVNULL)
+		result = str(check_call(['curl', '-d', '\'{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}\'', 'http://localhost:6680/mopidy/rpc'], stdout=DEVNULL))
 		if 'paused' in result:
 			print("Stopped")
 			return False
