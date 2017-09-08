@@ -212,6 +212,7 @@ class LedControl():
 		pipe = Popen(['curl', '-d', '{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}', 'http://localhost:6680/mopidy/rpc'], stdout=DEVNULL, stderr=PIPE)
 		result, err = pipe.communicate()
 		result = str(result)
+		print(result)
 
 		if 'paused' in result:
 			print("Stopped")
