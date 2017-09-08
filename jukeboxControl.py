@@ -3,7 +3,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import os
 import random
-import subprocess
+from subprocess import DEVNULL, STDOUT, check_call
 import json
 
 from neopixel import *
