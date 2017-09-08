@@ -62,6 +62,7 @@ class MainControl():
 				self.ledState = self.leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'playing':
 				# Music is playing and so are LED's
+				self.leds.playing_leds()
 				self.ledState = self.leds.check_next_state(self.ledTimer)
 			elif self.ledState == 'paused':
 				# Music is paused so LED's are still
@@ -106,7 +107,7 @@ class LedControl():
 	blue = Color(0, 0, 255)
 	white = Color(255,255,255)
 	black = Color(0,0,0)
-	currentColor = Color(0,0,0)
+	lastColorNumber = 0;
 	global volume, bass, treble
 
 	def __init__(self, volumeNumber, bassNumber, trebleNumber):
@@ -171,6 +172,7 @@ class LedControl():
 			i += 1
 		self.strip.show()
 
+	# Get a color from the color wheel. (not white or black)
 	def wheel(self, pos):
 		if pos < 85:
 			return Color(pos*3,255-pos*3,0)
@@ -188,7 +190,13 @@ class LedControl():
 			self.strip.show()
 
 	def playing_leds(self):
-		pass
+		for i in range(self.strip.numPixels()):
+			self.strip.setPixelColor(i, self.wheel(self.lastColorNumber))
+		self.strip.show()
+		if self.lastColorNumber == 255:
+			self.lastColorNumber = 0
+		else:
+			self.lastColorNumber += 1
 
 	def paused_leds(self):
 		for i in range(self.strip.numPixels()):
@@ -198,9 +206,15 @@ class LedControl():
 	def random_255(self):
 		return random.randint(0, 255)
 
+	def check_playing(self):
+		return False
+
 	def check_next_state(self, setTime):
 		if int(time.time())-5 < setTime:
 			return 'null'
+		if self.check_playing() == True:
+			self.firstChange = True
+			return 'playing'
 		else:
 			# firstChange set to true to prepare for next change
 			self.firstChange = True
