@@ -211,11 +211,12 @@ class LedControl():
 	def check_playing(self):
 		result = str(os.system("curl -d '{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"core.playback.get_state\"}' http://localhost:6680/mopidy/rpc"))
 		if 'stopped' in result:
+			print("Stopped")
 			return False
 		elif 'playing' in result:
+			print("Playing")
 			return True
 
-		print(result)
 		return False
 
 	def check_next_state(self, setTime):
