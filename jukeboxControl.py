@@ -207,6 +207,8 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_playing(self):
+		result = os.system("curl -d '{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"core.playback.get_state\"}' http://localhost:6680/mopidy/rpc")
+		print(result)
 		return False
 
 	def check_next_state(self, setTime):
