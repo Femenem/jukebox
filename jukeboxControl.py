@@ -209,7 +209,7 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_playing(self):
-		result = subprocess.check_output(['"curl', '-d', '\'{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"core.playback.get_state\"}\'', 'http://localhost:6680/mopidy/rpc'"])
+		result = subprocess.check_output(['curl', '-d', '\'{"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}\'', 'http://localhost:6680/mopidy/rpc'"])
 		if 'stopped' in result:
 			print("Stopped")
 		elif 'playing' in result:
