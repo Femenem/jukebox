@@ -212,7 +212,7 @@ class LedControl():
 		http = urllib3.PoolManager()
 		url = 'http://localhost:6680/mopidy/rpc'
 		r = http.request('POST', url, fields={"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"})
-		print(json.loads(r.data.decode('utf-8'))['json'])
+		r = json.loads(r.data.decode('utf-8'))['json']
 
 		if 'paused' in r:
 			print("Stopped")
