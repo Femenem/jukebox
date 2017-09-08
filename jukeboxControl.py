@@ -210,8 +210,8 @@ class LedControl():
 
 	def check_playing(self):
 		http = urllib3.PoolManager()
-		url = 'http://localhost:6680/mopidy/rpc'
-		r = http.request('POST', url, fields={"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"})
+		data = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}).encode('utf-8')
+		r = http.request('POST', url, fields=data)
 		r = json.loads(r.data.decode('utf-8'))
 		print(r)
 
