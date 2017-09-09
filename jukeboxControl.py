@@ -215,7 +215,7 @@ class LedControl():
 		print(data)
 		data = json.dumps(data)
 		print(data)
-		r = http.request('POST', url, fields=data)
+		r = http.request('POST', url, fields=json.dumps({"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}))
 		r = json.loads(r.data.decode('utf-8'))
 		print(r)
 
