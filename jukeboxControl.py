@@ -213,9 +213,9 @@ class LedControl():
 		url = 'http://localhost:6680/mopidy/rpc'
 		data = {"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}
 		print(data)
-		data = json.dumps(data).encode('utf-8')
+		data = json.dumps(data)
 		print(data)
-		r = http.request('POST', url, fields={"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"})
+		r = http.request('POST', url, fields=data)
 		r = json.loads(r.data.decode('utf-8'))
 		print(r)
 
