@@ -3,7 +3,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import os
 import random
-import urllib3
+import requests
 import json
 
 from neopixel import *
@@ -209,15 +209,13 @@ class LedControl():
 		return random.randint(0, 255)
 
 	def check_playing(self):
-		http = urllib3.PoolManager()
 		url = 'http://localhost:6680/mopidy/rpc'
 		data = {"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}
 		# print(data)
-		data = json.dumps(data)
+		# data = json.dumps(data)
 		# print(data)
-		r = http.request('POST', url, fields={"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"})
-		print(r)
-		r = json.loads(r.data.decode('utf-8'))
+		r = requests.post(url, data=data)
+		print(r.json())
 		print(r)
 
 		if 'paused' in r:
