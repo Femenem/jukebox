@@ -213,14 +213,10 @@ class LedControl():
 		data = {"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}
 		data = json.dumps(data)
 		r = requests.post(url, data=data)
-		print(r.json()['result'])
-		if 'paused' in r:
-			print("Stopped")
-			return False
-		elif 'playing' in r:
-			print("Playing")
+		if r.json()['result'] == 'playing':
 			return True
-		return False
+		else:
+			return False
 
 	def check_next_state(self, setTime):
 		if int(time.time())-5 < setTime:
