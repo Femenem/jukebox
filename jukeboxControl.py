@@ -211,13 +211,9 @@ class LedControl():
 	def check_playing(self):
 		url = 'http://localhost:6680/mopidy/rpc'
 		data = {"jsonrpc": "2.0", "id": 1, "method": "core.playback.get_state"}
-		# print(data)
 		data = json.dumps(data)
-		# print(data)
 		r = requests.post(url, data=data)
-		print(r.json())
-		print(r)
-
+		print(r.json()['result'])
 		if 'paused' in r:
 			print("Stopped")
 			return False
