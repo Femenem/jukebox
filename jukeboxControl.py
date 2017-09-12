@@ -198,7 +198,7 @@ class LedControl():
 		if self.lastColorNumber == 255:
 			self.lastColorNumber = 0
 		else:
-			self.lastColorNumber += 1
+			self.lastColorNumber += 3
 
 	def paused_leds(self):
 		for i in range(self.strip.numPixels()):
