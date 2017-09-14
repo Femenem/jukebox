@@ -48,7 +48,7 @@ class MainControl():
 		self.leds.wipe_led_strip()
 		while True:
 			newVolume = self.read_volume()
-			if (newVolume < self.volume - 2) or (newVolume > self.volume + 2):
+			if (newVolume < self.volume - 5) or (newVolume > self.volume + 5):
 				#The volume knob has been changed so we change the volume through alsa.
 				os.system("amixer set Master "+str(newVolume)+"%")
 				self.ledState = 'volume change'
